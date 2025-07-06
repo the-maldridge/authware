@@ -13,6 +13,7 @@ import (
 
 	"github.com/the-maldridge/authware"
 	_ "github.com/the-maldridge/authware/backend/htpasswd"
+	_ "github.com/the-maldridge/authware/backend/ldap"
 )
 
 func main() {
