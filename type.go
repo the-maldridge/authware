@@ -38,7 +38,7 @@ type User struct {
 	// This will be normalized by a backend as just the name, not
 	// any path elements that may be required such as in an LDAP
 	// context.
-	Groups   map[string]struct{}
+	Groups map[string]struct{}
 
 	// AuthedBy specifies which backend successfully identified
 	// this user.
