@@ -2,7 +2,9 @@ package authware
 
 import (
 	"context"
-	"net/http"
+	"time"
+
+	"github.com/meehow/securebytes"
 )
 
 // A Factory is an initializer that makes a concrete insantiation of
@@ -45,13 +47,17 @@ type User struct {
 	AuthedBy string
 }
 
-// Middleware encapsulates all the auth mechanisms
-type Middleware interface {
-	Handler(http.Handler) http.Handler
-}
-
 // BasicMiddleware inserts HTTP basic auth requirements into the
 // handler chain.
 type BasicMiddleware struct {
 	a []Authenticator
+
+	sb *securebytes.SecureBytes
+}
+
+// Session contains the information that is encoded into the session
+// cookie.
+type Session struct {
+	Expires time.Time
+	User    User
 }

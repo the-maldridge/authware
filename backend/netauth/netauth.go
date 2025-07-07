@@ -41,7 +41,7 @@ func New() (authware.Authenticator, error) {
 	c.SetServiceName("authware")
 
 	x := netAuthBackend{
-		nacl:   c,
+		nacl: c,
 	}
 
 	return &x, nil

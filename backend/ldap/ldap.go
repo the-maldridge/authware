@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log/slog"
 	"os"
 	"strings"
-	"log/slog"
 
 	"github.com/go-ldap/ldap/v3"
 
