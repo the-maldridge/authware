@@ -15,6 +15,7 @@ import (
 	_ "github.com/the-maldridge/authware/backend/htpasswd"
 	_ "github.com/the-maldridge/authware/backend/ldap"
 	_ "github.com/the-maldridge/authware/backend/netauth"
+	_ "github.com/the-maldridge/authware/backend/pam"
 )
 
 func main() {
@@ -39,7 +40,7 @@ func main() {
 		r.Get("/", secureLanding)
 	})
 	r.Get("/login", loginPage)
-	r.Post("/login", basic.LoginFormHandler("username", "password"))
+	r.Post("/login", basic.LoginFormHandler("username", "password", "/logged-in/"))
 	r.Route("/logged-in/", func(r chi.Router) {
 		r.Use(basic.LoginHandler("/login"))
 		r.Get("/", secureLanding)

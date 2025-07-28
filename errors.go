@@ -10,3 +10,9 @@ func (e ErrDoesNotExist) Error() string { return "resource does not exist" }
 type ErrUnauthenticated struct{}
 
 func (e ErrUnauthenticated) Error() string { return "authentication failed" }
+
+// ErrBackendInternal is returned whenever a backend has encountered
+// an internal error that cannot be surfaced to the user.
+type ErrBackendInternal struct{}
+
+func (e ErrBackendInternal) Error() string { return "backend internal error" }
