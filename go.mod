@@ -4,6 +4,8 @@ go 1.24.4
 
 require (
 	github.com/go-ldap/ldap/v3 v3.4.11
+	github.com/meehow/securebytes v0.3.1
+	github.com/msteinert/pam/v2 v2.1.0
 	github.com/netauth/netauth v0.6.2
 	github.com/spf13/viper v1.20.1
 	github.com/tg123/go-htpasswd v1.2.4
@@ -18,8 +20,6 @@ require (
 	github.com/go-viper/mapstructure/v2 v2.2.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/go-hclog v0.9.2 // indirect
-	github.com/meehow/securebytes v0.3.1 // indirect
-	github.com/msteinert/pam/v2 v2.1.0 // indirect
 	github.com/netauth/protocol v0.0.0-20210918062754-7fee492ffcbd // indirect
 	github.com/pelletier/go-toml/v2 v2.2.3 // indirect
 	github.com/sagikazarmark/locafero v0.7.0 // indirect

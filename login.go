@@ -13,7 +13,7 @@ import (
 // LoginHandler sets up a middleware that handles input from a login
 // form and sets a cookie.
 func (b *BasicMiddleware) LoginHandler(loginPath string) func(http.Handler) http.Handler {
-	return func(next http.Handler) http.Handler {
+	b.cookieHandler = func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			loginURL := url.URL{Path: loginPath}
 			nextPath := r.URL.EscapedPath()
@@ -43,6 +43,7 @@ func (b *BasicMiddleware) LoginHandler(loginPath string) func(http.Handler) http
 			return
 		})
 	}
+	return b.cookieHandler
 }
 
 // LogoutHandler clears the cookie and sends the caller somewhere

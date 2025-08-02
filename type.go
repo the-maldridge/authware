@@ -2,6 +2,7 @@ package authware
 
 import (
 	"context"
+	"net/http"
 	"time"
 
 	"github.com/meehow/securebytes"
@@ -47,12 +48,18 @@ type User struct {
 	AuthedBy string
 }
 
+// Middleware defines a function that can sit in the handler chain and
+// potentially modify the response.
+type Middleware func(http.Handler) http.Handler
+
 // BasicMiddleware inserts HTTP basic auth requirements into the
 // handler chain.
 type BasicMiddleware struct {
 	a []Authenticator
 
 	sb *securebytes.SecureBytes
+
+	cookieHandler Middleware
 }
 
 // Session contains the information that is encoded into the session

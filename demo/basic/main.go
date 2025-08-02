@@ -46,6 +46,11 @@ func main() {
 		r.Get("/", secureLanding)
 	})
 
+	r.Route("/multi", func(r chi.Router) {
+		r.Use(basic.MultiAuthHandler())
+		r.Get("/", secureLanding)
+	})
+
 	// Start up the webserver and wait forever.
 	go func() {
 		s.Handler = r
@@ -55,6 +60,7 @@ func main() {
 	slog.Info("Demo is running on http://localhost:8000")
 	slog.Info("Try loading http://localhost:8000/basic/ for basic auth")
 	slog.Info("Try loading http://localhost:8000/logged-in/ for login auth")
+	slog.Info("Try loading http://localhost:8000/multi/ for multi-auth matching")
 	slog.Info("htpassword credentials", "username", "user", "password", "password")
 
 	// Cleanly shut down the webserver on C-c.
