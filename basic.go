@@ -61,6 +61,7 @@ func (b *BasicMiddleware) BasicHandler(next http.Handler) http.Handler {
 			slog.Debug("Denying request after no auth method matched")
 			w.WriteHeader(http.StatusUnauthorized)
 			fmt.Fprintln(w, "Access Denied")
+			return
 		}
 		next.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), UserKey{}, user)))
 	})
