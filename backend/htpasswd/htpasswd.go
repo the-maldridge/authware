@@ -4,6 +4,8 @@ import (
 	"context"
 	"log/slog"
 	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/tg123/go-htpasswd"
 
@@ -50,6 +52,22 @@ func New() (authware.Authenticator, error) {
 		f: f,
 		g: g,
 	}
+
+	rChan := make(chan os.Signal, 1)
+	signal.Notify(rChan, syscall.SIGHUP)
+
+	go func() {
+		for {
+			<-rChan
+			if err := f.Reload(nil); err != nil {
+				slog.Warn("Error reloading htpasswd", "error", err)
+			}
+			if err := g.ReloadGroups(nil); err != nil {
+				slog.Warn("Error reloading htgroup", "error", err)
+			}
+			slog.Info("Reloaded htpasswd and htgroup")
+		}
+	}()
 
 	slog.Info("Initialized", "htpasswd", htpasswdFile, "htgroup", htgroupFile)
 	return &x, nil
