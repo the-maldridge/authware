@@ -20,7 +20,7 @@ func RegisterFactory(s string, f Factory) {
 		return
 	}
 	factories[s] = f
-	slog.Info("Registered Auth Mechanism", "mechanism", s)
+	slog.Debug("Registered Auth Mechanism", "mechanism", s)
 }
 
 // Initialize requests that an authenticator initialize and become
