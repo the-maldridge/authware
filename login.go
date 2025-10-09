@@ -40,10 +40,37 @@ func (b *BasicMiddleware) LoginHandler(loginPath string) func(http.Handler) http
 			// Serve the rest of the chain with the user in the
 			// request context.
 			next.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), UserKey{}, session.User)))
-			return
 		})
 	}
 	return b.cookieHandler
+}
+
+// SessionHandler does the same verification that the LoginHandler
+// does, but without the redirect.
+func (b *BasicMiddleware) SessionHandler() func(http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			var session Session
+			cookie, err := r.Cookie("session")
+			if err != nil {
+				next.ServeHTTP(w, r)
+				return
+			}
+			if err = b.sb.DecryptBase64(cookie.Value, &session); err != nil {
+				next.ServeHTTP(w, r)
+				return
+			}
+			if time.Now().After(session.Expires) {
+				// Session Expired
+				next.ServeHTTP(w, r)
+				return
+			}
+
+			// Serve the rest of the chain with the user in the
+			// request context.
+			next.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), UserKey{}, session.User)))
+		})
+	}
 }
 
 // LogoutHandler clears the cookie and sends the caller somewhere
