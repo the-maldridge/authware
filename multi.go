@@ -18,7 +18,6 @@ func (b *BasicMiddleware) MultiAuthHandler() func(http.Handler) http.Handler {
 				return
 			}
 			w.WriteHeader(http.StatusUnauthorized)
-			return
 		})
 	}
 }
